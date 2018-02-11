@@ -148,7 +148,7 @@ module.exports = function (p) {
     modelPrevPen = Create2DArray(Nsize, Nsize)
 
     // dom
-    resetButton = p.createButton('start over')
+    resetButton = p.createButton('Clear')
     resetButton.position(5, insize - 25)
     resetButton.mousePressed(resetButtonEvent) // attach button listener
 
@@ -161,13 +161,13 @@ module.exports = function (p) {
     modelSelection.changed(modelSelected)
 
     // random model buttom
-    randomModelButton = p.createButton('random')
-    randomModelButton.position(226, insize - 25)
+    randomModelButton = p.createButton('Random')
+    randomModelButton.position(240, insize - 25)
     randomModelButton.mousePressed(randomButtonEvent) // attach button listener
 
     // predict button
-    predictButton = p.createButton('predict')
-    predictButton.position(290, insize - 25)
+    predictButton = p.createButton('Re-Draw')
+    predictButton.position(315, insize - 25)
     predictButton.mousePressed(predictEvent) // attach button listener
 
     // text descriptions
