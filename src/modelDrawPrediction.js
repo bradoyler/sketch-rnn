@@ -1,6 +1,6 @@
 /* globals ModelImporter, SketchRNN, DataTool */
 const { largeClassList, smallClassList } = require('./models/lists')
-const { Create2DArray } = require('./lib/helpers')
+const { Create2DArray, insideBox } = require('./lib/helpers')
 const modelRawData = JSON.stringify(require('./models/bicycle.gen.json'))
 
 module.exports = function (p) {
@@ -72,11 +72,6 @@ module.exports = function (p) {
   let textTitle
   let titleText = 'Draw a Bicycle...'
 
-  const setTitleText = function (new_text) {
-    titleText = new_text.split('_').join(' ')
-    textTitle.html(titleText)
-  }
-
   const drawExample = function (example, startX, startY, lineColor, lineThickness) {
     let x = startX
     let y = startY
@@ -147,27 +142,32 @@ module.exports = function (p) {
     modelSteps = Create2DArray(Nsize, Nsize)
     modelPrevPen = Create2DArray(Nsize, Nsize)
 
-    // dom
-    resetButton = p.createButton('Clear')
-    resetButton.position(5, insize - 25)
-    resetButton.touchStarted(resetButtonEvent) // attach button listener
-
-    // data selection
+    // select box
     modelSelection = p.createSelect()
     for (let i = 0; i < classList.length; i++) {
       modelSelection.option(classList[i])
     }
+    modelSelection.class('form-control')
+    modelSelection.style('max-width', 120)
     modelSelection.position(95, insize - 25)
     modelSelection.changed(modelSelected)
 
+    // dom
+    resetButton = p.createButton('Clear')
+    resetButton.class('btn btn-primary')
+    resetButton.position(5, insize - 25)
+    resetButton.touchStarted(resetButtonEvent) // attach button listener
+
     // random model buttom
     randomModelButton = p.createButton('Random')
+    randomModelButton.class('btn btn-primary')
     randomModelButton.position(240, insize - 25)
     randomModelButton.touchStarted(randomButtonEvent) // attach button listener
 
     // predict button
     predictButton = p.createButton('Re-Draw')
-    predictButton.position(315, insize - 25)
+    predictButton.class('btn btn-primary')
+    predictButton.position(325, insize - 25)
     predictButton.touchStarted(predictEvent) // attach button listener
 
     // text descriptions
@@ -301,13 +301,6 @@ module.exports = function (p) {
     }
   }
 
-  const insideBox = function (x, y) {
-    if (x > 0 && y > 0 && x < outsize && y < outsize) {
-      return true
-    }
-    return false
-  }
-
   const processModels = function () {
     var i, j
 
@@ -356,7 +349,7 @@ module.exports = function (p) {
             y0 = m_y / scale
             x1 = (m_x + m_dx) / scale
             y1 = (m_y + m_dy) / scale
-            if (insideBox(x0, y0) && insideBox(x1, y1)) {
+            if (insideBox(x0, y0, outsize) && insideBox(x1, y1, outsize)) {
               p.stroke(predictLineColor)
               p.strokeWeight(lineWidth)
               p.line(o_x + x0, o_y + y0, o_x + x1, o_y + y1)
@@ -520,6 +513,11 @@ module.exports = function (p) {
     restart()
   }
 
+  const setTitleText = function (new_text) {
+    titleText = new_text.split('_').join(' ')
+    textTitle.html(titleText)
+  }
+
   const predictEvent = function () {
     redrawScreen()
     restartModels()
@@ -548,15 +546,19 @@ module.exports = function (p) {
     ModelImporter.change_model(sketchModel, c, v, call_back)
   }
 
-  p.setup = function () {
+  function setup () {
     init()
     restart()
   }
 
-  p.draw = function () {
+  function draw () {
     processUserInput()
     if (pen === 1) {
       processModels()
     }
   }
+
+  p.setup = setup
+  p.draw = draw
+  window.addEventListener('resize', setup)
 }

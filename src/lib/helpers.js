@@ -9,6 +9,14 @@ const Create2DArray = function (rows, cols) {
   return arr
 }
 
+const insideBox = function (x, y, outsize) {
+  if (x > 0 && y > 0 && x < outsize && y < outsize) {
+    return true
+  }
+  return false
+}
+
 module.exports = {
-  Create2DArray
+  Create2DArray,
+  insideBox
 }
