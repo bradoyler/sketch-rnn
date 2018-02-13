@@ -150,7 +150,7 @@ module.exports = function (p) {
     // dom
     resetButton = p.createButton('Clear')
     resetButton.position(5, insize - 25)
-    resetButton.mousePressed(resetButtonEvent) // attach button listener
+    resetButton.touchStarted(resetButtonEvent) // attach button listener
 
     // data selection
     modelSelection = p.createSelect()
@@ -163,12 +163,12 @@ module.exports = function (p) {
     // random model buttom
     randomModelButton = p.createButton('Random')
     randomModelButton.position(240, insize - 25)
-    randomModelButton.mousePressed(randomButtonEvent) // attach button listener
+    randomModelButton.touchStarted(randomButtonEvent) // attach button listener
 
     // predict button
     predictButton = p.createButton('Re-Draw')
     predictButton.position(315, insize - 25)
-    predictButton.mousePressed(predictEvent) // attach button listener
+    predictButton.touchStarted(predictEvent) // attach button listener
 
     // text descriptions
     textInstruction = p.createP('')
@@ -435,8 +435,12 @@ module.exports = function (p) {
   }
 
   const processUserInput = function () {
+    const pointerPressed = p.touchIsDown || p.mouseIsPressed
+    const pointerX = p.touchX || p.mouseX
+    const pointerY = p.touchY || p.mouseY
+
     // record pen drawing from user:
-    if (p.mouseIsPressed && (p.mouseX <= insize) && (p.mouseY <= insize - 27)) { // pen is touching the paper
+    if (pointerPressed && (pointerX <= insize) && (pointerY <= insize - 27)) { // pen is touching the paper
       if (hasStarted === false) { // first time anything is written
         hasStarted = true
         x = p.mouseX
