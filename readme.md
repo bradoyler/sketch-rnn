@@ -1,3 +1,5 @@
 ## Sketch-Vue
 
-A demo of the [Sketch-RNN examples](https://github.com/tensorflow/magenta-demos/tree/master/sketch-rnn-js) in a Vue.js app
+A demo of the [Magenta research project and examples](https://magenta.tensorflow.org), but built with [Vue.js](https://vuejs.org)
+
+> details coming soon...
