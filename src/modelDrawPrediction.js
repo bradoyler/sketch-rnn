@@ -1,11 +1,12 @@
 /* globals ModelImporter, SketchRNN, DataTool */
 const { largeClassList, smallClassList } = require('./models/lists')
 const { Create2DArray, insideBox } = require('./lib/helpers')
+const config = require('./config.json')
 const modelRawData = JSON.stringify(require('./models/bicycle.gen.json'))
 
 module.exports = function (p) {
-  const useLargeModels = false
-  const classList = useLargeModels ? largeClassList : smallClassList
+  const { useLocalModels } = config
+  const classList = useLocalModels ? largeClassList : smallClassList
   const Nsize = 2 // output will be a matrix of Nsize x Nsize;
   const lineWidth = 1.0
   const minSequenceLength = 5
@@ -117,8 +118,8 @@ module.exports = function (p) {
     outsize = screenWidth / (2 * Nsize)
     ModelImporter.set_init_model(modelRawData)
 
-    if (useLargeModels) {
-      ModelImporter.set_model_url('https://storage.googleapis.com/quickdraw-models/sketchRNN/large_models/')
+    if (useLocalModels) {
+      ModelImporter.set_model_url('sketch-rnn-models/data/')
     }
 
     modelData = ModelImporter.get_model_data()
