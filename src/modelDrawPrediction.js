@@ -67,7 +67,7 @@ module.exports = function (p) {
   let canvas
   let resetButton
   let modelSelection
-  let textInstruction
+  // let textInstruction
   let randomModelButton
   let predictButton
   let textTitle
@@ -114,7 +114,7 @@ module.exports = function (p) {
     screenWidth = Math.max(window.innerWidth, 480)
     screenHeight = Math.max(window.innerHeight, 320)
 
-    insize = screenWidth / 2
+    insize = screenHeight
     outsize = screenWidth / (2 * Nsize)
     ModelImporter.set_init_model(modelRawData)
 
@@ -148,33 +148,33 @@ module.exports = function (p) {
     for (let i = 0; i < classList.length; i++) {
       modelSelection.option(classList[i])
     }
-    modelSelection.class('form-control')
+    modelSelection.class('form-control controls')
     modelSelection.style('max-width', 120)
-    modelSelection.position(95, insize - 25)
+    modelSelection.position(95, insize - 45)
     modelSelection.changed(modelSelected)
 
     // dom
     resetButton = p.createButton('Clear')
     resetButton.class('btn btn-primary')
-    resetButton.position(5, insize - 25)
+    resetButton.position(5, insize - 45)
     resetButton.touchStarted(resetButtonEvent) // attach button listener
 
     // random model buttom
     randomModelButton = p.createButton('Random')
     randomModelButton.class('btn btn-primary')
-    randomModelButton.position(240, insize - 25)
+    randomModelButton.position(240, insize - 45)
     randomModelButton.touchStarted(randomButtonEvent) // attach button listener
 
     // predict button
     predictButton = p.createButton('Re-Draw')
     predictButton.class('btn btn-primary')
-    predictButton.position(325, insize - 25)
+    predictButton.position(325, insize - 45)
     predictButton.touchStarted(predictEvent) // attach button listener
 
     // text descriptions
-    textInstruction = p.createP('')
-    textInstruction.style('font-family', 'monospace')
-    textInstruction.position(10, insize - 60)
+    // textInstruction = p.createP('')
+    // textInstruction.style('font-family', 'monospace')
+    // textInstruction.position(10, insize - 70)
 
     textTitle = p.createElement('h3', titleText)
     textTitle.style('font-family', 'Helvetica')
@@ -184,9 +184,9 @@ module.exports = function (p) {
   }
 
   const resetText = function () {
-    var class_name = sketchModel.name
-    class_name = class_name.split('_').join(' ')
-    textInstruction.html('draw partial ' + class_name + '.')
+    // let class_name = sketchModel.name
+    // class_name = class_name.split('_').join(' ')
+    // textInstruction.html('draw partial ' + class_name + '.')
   }
 
   const redrawScreen = function () {
