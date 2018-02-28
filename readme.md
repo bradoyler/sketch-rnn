@@ -1,4 +1,4 @@
-## Sketch-Vue
+## Sketch-RNN
 
 A demo of the [Magenta research project and examples](https://magenta.tensorflow.org)
 
